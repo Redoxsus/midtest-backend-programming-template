@@ -1,20 +1,22 @@
 meta {
-  name: Pagination
+  name: Authentication
   type: http
-  seq: 2
+  seq: 3
 }
 
 post {
-  url: /users?page_number=2&page_size=10
-  body: none
+  url: http://localhost:5000/api/authentication/login
+  body: json
   auth: none
-}
-
-query {
-  page_number: 2
-  page_size: 10
 }
 
 headers {
   Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJ1c2VySWQiOiI2NjMxY2ZjYTIzOTA1NDVlMzU2NWY1YTEiLCJpYXQiOjE3MTQ1NDIzNDgsImV4cCI6MTcxNDYyODc0OH0.8dI6UFe43DvL5_w85xFXWzYT2ye14h2NZSARwrbFjJE
+}
+
+body:json {
+  {
+    "email" : "user@example.com",
+    "password" : "123456"
+  }
 }

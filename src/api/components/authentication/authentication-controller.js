@@ -34,10 +34,3 @@ async function login(request, response, next) {
 module.exports = {
   login,
 };
-
-const email = document.getElementById('email');
-const password = document.getElementById('password');
-const error = document.getElementById('error');
-
-let testLogin = 0;
-const maxloginTest = 5;

@@ -19,10 +19,7 @@ async function login(request, response, next) {
     );
 
     if (!loginSuccess) {
-      throw errorResponder(
-        errorTypes.INVALID_CREDENTIALS,
-        'Wrong email or password'
-      );
+      throw errorResponder(errorTypes.FORBIDDEN, 'Too Many Failed Attemps');
     }
 
     return response.status(200).json(loginSuccess);

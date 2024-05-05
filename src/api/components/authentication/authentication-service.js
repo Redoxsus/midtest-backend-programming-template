@@ -2,32 +2,39 @@ const authenticationRepository = require('./authentication-repository');
 const { generateToken } = require('../../../utils/session-token');
 const { passwordMatched } = require('../../../utils/password');
 
+// map untuk menyimpan percobaan login per email
+const loginAttempts = new Map();
+
 /**
- * Check username and password for login.
+ * Memeriksa username dan password untuk login.
  * @param {string} email - Email
  * @param {string} password - Password
- * @returns {object} An object containing, among others, the JWT token if the email and password are matched. Otherwise returns null.
+ * @returns {object} Objek yang berisi, antara lain, token JWT jika email dan password cocok. Jika tidak cocok, mengembalikan null.
  */
 async function checkLoginCredentials(email, password) {
   const user = await authenticationRepository.getUserByEmail(email);
 
-  // We define default user password here as '<RANDOM_PASSWORD_FILTER>'
-  // to handle the case when the user login is invalid. We still want to
-  // check the password anyway, so that it prevents the attacker in
-  // guessing login credentials by looking at the processing time.
-  const userPassword = user ? user.password : '<RANDOM_PASSWORD_FILLER>';
-  const passwordChecked = await passwordMatched(password, userPassword);
+  const attempts = loginAttempts.get(email) || 0;
 
-  // Because we always check the password (see above comment), we define the
-  // login attempt as successful when the `user` is found (by email) and
-  // the password matches.
-  if (user && passwordChecked) {
-    return {
-      email: user.email,
-      name: user.name,
-      user_id: user.id,
-      token: generateToken(user.email, user.id),
-    };
+  if (user) {
+    const userPassword = user.password;
+    const passwordChecked = await passwordMatched(password, userPassword);
+
+    if (passwordChecked) {
+      loginAttempts.delete(email);
+      return {
+        email: user.email,
+        name: user.name,
+        user_id: user.id,
+        token: generateToken(user.email, user.id),
+      };
+    } else {
+      loginAttempts.set(email, attempts + 1);
+    }
+  }
+
+  if (attempts >= 5) {
+    throw new Error('Too Many Failed Attemps');
   }
 
   return null;

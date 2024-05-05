@@ -2,15 +2,8 @@ const authenticationRepository = require('./authentication-repository');
 const { generateToken } = require('../../../utils/session-token');
 const { passwordMatched } = require('../../../utils/password');
 
-// map untuk menyimpan percobaan login per email
 const loginAttempts = new Map();
 
-/**
- * Memeriksa username dan password untuk login.
- * @param {string} email - Email
- * @param {string} password - Password
- * @returns {object} Objek yang berisi, antara lain, token JWT jika email dan password cocok. Jika tidak cocok, mengembalikan null.
- */
 async function checkLoginCredentials(email, password) {
   const user = await authenticationRepository.getUserByEmail(email);
 
@@ -34,7 +27,11 @@ async function checkLoginCredentials(email, password) {
   }
 
   if (attempts >= 5) {
-    throw new Error('Too Many Failed Attemps');
+    const error = new Error('Too Many Failed Attempts');
+    error.status = 403;
+    error.description = 'FORBIDDEN';
+    error.error = 'FORBIDDEN';
+    throw error;
   }
 
   return null;

@@ -5,14 +5,20 @@ meta {
 }
 
 post {
-  url: http://localhost:5000/api/authentication/login
+  url: http://localhost:5000/api/authenticaction/login
   body: json
   auth: none
 }
 
+headers {
+  Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwidXNlcklkIjoiNjYwZTAwZTNjNjA4OTc4YmQyMTdjMGVlIiwiaWF0IjoxNzE0ODg0MDg4LCJleHAiOjE3MTQ5NzA0ODh9.RdaVp2l0YxuWN0ZsTJxVkIASVCOZQAewuhHowyHgWgA
+}
+
 body:json {
   {
-    "email" : "user@example.com",
-    "password" : "123456"
+    "name": "admin1",
+    "email": "admin1@gmail.com",
+    "password": "Up4535p",
+    "password_confirm": "Up4535p"
   }
 }

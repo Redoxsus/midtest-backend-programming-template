@@ -5,20 +5,53 @@ const { hashPassword, passwordMatched } = require('../../../utils/password');
  * Get list of users
  * @returns {Array}
  */
-async function getUsers() {
-  const users = await usersRepository.getUsers();
+async function getUsers(page_number, page_size, sort, search) {
+  const pageNumber = parseInt(page_number);
+  const pageSize = parseInt(page_size);
 
-  const results = [];
-  for (let i = 0; i < users.length; i += 1) {
-    const user = users[i];
-    results.push({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-    });
+  let sortOption;
+  switch (sort) {
+    case 'name_asc':
+      sortOption = { name: 1 };
+      break;
+    case 'name_desc':
+      sortOption = { name: -1 };
+      break;
+    case 'email_asc':
+      sortOption = { email: 1 };
+      break;
+    case 'email_desc':
+      sortOption = { email: -1 };
+      break;
+    default:
+      sortOption = {};
   }
 
-  return results;
+  const users = await usersRepository.getUsers(
+    pageNumber,
+    pageSize,
+    sortOption,
+    search
+  );
+
+  const has_previous_page = pageNumber > 1;
+  const has_next_page = pageNumber * pageSize < users.count;
+
+  const results = users.data.map((user) => ({
+    id: user.id,
+    name: user.name,
+    email: user.email,
+  }));
+
+  return {
+    page_number: pageNumber,
+    page_size: pageSize,
+    count: users.count,
+    total_pages: Math.ceil(users.count / pageSize),
+    has_previous_page,
+    has_next_page,
+    data: results,
+  };
 }
 
 /**

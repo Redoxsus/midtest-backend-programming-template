@@ -8,9 +8,32 @@ const { errorResponder, errorTypes } = require('../../../core/errors');
  * @param {object} next - Express route middlewares
  * @returns {object} Response object or pass an error to the next route
  */
+
+// Deklarasi fungsi getUsers
 async function getUsers(request, response, next) {
   try {
-    const users = await usersService.getUsers();
+    const page_number = parseInt(request.query.page_number);
+    const page_size = parseInt(request.query.page_size);
+    const sort = request.query.sort;
+    const search = request.query.search;
+
+    // isNaN berfungsi untuk mengecek page number dan page size adalah angka yang valid
+    if (
+      isNaN(page_number) ||
+      isNaN(page_size) ||
+      page_number <= 0 ||
+      page_size <= 0
+    ) {
+      throw new Error('Angka Tidak Valid');
+    }
+
+    const users = await usersService.getUsers(
+      page_number,
+      page_size,
+      sort,
+      search
+    );
+
     return response.status(200).json(users);
   } catch (error) {
     return next(error);

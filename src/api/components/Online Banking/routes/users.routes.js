@@ -1,10 +1,10 @@
 const express = require('express');
 const usersController = require('../controllers/users.controller');
 
-const router = express.Router();
+const route = express.Router();
 
-router.post('/', usersController.createUser);
-router.get('/:id/balance', usersController.getUserBalance);
-router.put('/:id/balance', usersController.updateUserBalance);
+route.post('/', usersController.createUser);
+route.get('/:id/balance', usersController.getUserBalance);
+route.put('/:id/balance', usersController.updateUserBalance);
 
-module.exports = router;
+module.exports = route;

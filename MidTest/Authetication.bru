@@ -4,21 +4,19 @@ meta {
   seq: 2
 }
 
-get {
-  url: http://localhost:5000/api/:id/balance
+post {
+  url: http://localhost:5000/api/authentication/login
   body: json
   auth: none
 }
 
 headers {
-  Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwidXNlcklkIjoiNjYwZTAwZTNjNjA4OTc4YmQyMTdjMGVlIiwiaWF0IjoxNzE0OTgxNzcxLCJleHAiOjE3MTUwNjgxNzF9.cf2XNj_ZbrPrJX5KzxDDy5skY_c7HWCtb_c9MDVQhO4
+  Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4xQGdtYWlsLmNvbSIsInVzZXJJZCI6IjY2Mzg4ZTI2YmI3ZjViMjkyNDY3OTIwMyIsImlhdCI6MTcxNDk4ODM2NiwiZXhwIjoxNzE1MDc0NzY2fQ.ovHU45MnP1dRyr00EDNduGcM7MSDhRSZF6Sw1OxtFHg
 }
 
 body:json {
   {
-    "name":"john1",
-    "email": "john1@gmail.com",
-    "password":"Up1414#",
-    "balance":"100"
+    "message": "Saldo Telah ditambahkan",
+    "balance": 1500 // Contoh saldo pengguna setelah penambahan
   }
 }

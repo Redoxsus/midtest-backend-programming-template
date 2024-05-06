@@ -4,19 +4,21 @@ meta {
   seq: 2
 }
 
-post {
-  url: http://localhost:5000/api/authentication/login
+get {
+  url: http://localhost:5000/api/:id/balance
   body: json
   auth: none
 }
 
 headers {
-  Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwidXNlcklkIjoiNjYwZTAwZTNjNjA4OTc4YmQyMTdjMGVlIiwiaWF0IjoxNzE0ODg0MDg4LCJleHAiOjE3MTQ5NzA0ODh9.RdaVp2l0YxuWN0ZsTJxVkIASVCOZQAewuhHowyHgWgA
+  Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwidXNlcklkIjoiNjYwZTAwZTNjNjA4OTc4YmQyMTdjMGVlIiwiaWF0IjoxNzE0OTgxNzcxLCJleHAiOjE3MTUwNjgxNzF9.cf2XNj_ZbrPrJX5KzxDDy5skY_c7HWCtb_c9MDVQhO4
 }
 
 body:json {
   {
-    "email": "admin4@gmail.com",
-    "password": "1414"
+    "name":"john1",
+    "email": "john1@gmail.com",
+    "password":"Up1414#",
+    "balance":"100"
   }
 }
